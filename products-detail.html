@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products_detail page</title>
     <link rel="stylesheet" href="css/style.css">
+    <button class="menu-trigger" onclick="toggleSidebar()">☰ Menu</button>
 </head>
 <body>
-
+<div id="sidebar-placeholder"></div>
     <header class="main-header">
         <div class="header-top">
             <div class="logo">
@@ -337,9 +338,7 @@
             
             <div class="footer-brand-col">
                 <div class="footer-logo">
-                    <img src="assets/images/logo-blue.png" alt="Brand Logo" onerror="this.style.display='none'">
-                    <span class="logo-text-fallback"><svg width="24" height="24" viewBox="0 0 24 24" fill="#127fff" style="vertical-align:middle; margin-right:6px;"><path d="M19 6h-2V5c0-1.1-.9-2-2-2H9c-1.1 0-2 .9-2 2v1h-2c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10-1h6v1H9V5zm10 14H5V8h14v11z"/></svg>Brand</span>
-                </div>
+                    <img src="assets/images/logo-colored.png" alt="Brand Logo" onerror="this.style.display='none'"></div>
                 <p class="brand-info-summary">Best information about the company gies here but now lorem ipsum is</p>
                 <div class="social-links-row">
     <a href="#" class="social-icon" aria-label="Facebook"><span>f</span></a>
@@ -413,10 +412,10 @@
                 <h4>Get app</h4>
                 <div class="app-buttons-stack">
                     <a href="#" class="store-badge-link">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="Download on the App Store" class="store-svg-img">
+                        <img src="assets/images/market-button.png" alt="Download on the App Store" class="store-svg-img">
                     </a>
                     <a href="#" class="store-badge-link">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" class="store-svg-img">
+                        <img src="assets/images/Group.png" alt="Get it on Google Play" class="store-svg-img">
                     </a>
                 
                 </div>
@@ -448,5 +447,6 @@
         </div>
     </footer>
     </main>
+    <script src="js/main.js"></script>
 </body>
 </html>
