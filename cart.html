@@ -5,12 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart page</title>
     <link rel="stylesheet" href="css/style.css">
-    <button class="menu-trigger" onclick="toggleSidebar()">☰ Menu</button>
 </head>
 <body>
-<div id="sidebar-placeholder"></div>
+<aside class="sidebar">
+    <div class="sidebar-top-accent"></div>
+    <div class="sidebar-header">
+        <button class="sidebar-close-btn" onclick="toggleSidebar()">&times;</button>
+        <div class="sidebar-user-profile">
+            <div class="sidebar-avatar">
+                <svg viewBox="0 0 24 24" fill="#b0b8c1" width="32" height="32"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <div class="sidebar-auth-links">
+                <a href="#">Sign in</a> <span class="divider-text">|</span> <a href="#">Register</a>
+            </div>
+        </div>
+    </div>
+    <nav class="sidebar-menu">
+        <ul class="sidebar-menu-group">
+            <li><a href="#" class="sidebar-menu-link"><svg class="sidebar-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span>Home</span></a></li>
+            <li><a href="#" class="sidebar-menu-link"><svg class="sidebar-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg><span>Categories</span></a></li>
+            <li><a href="#" class="sidebar-menu-link"><svg class="sidebar-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg><span>Favorites</span></a></li>
+            <li><a href="#" class="sidebar-menu-link"><svg class="sidebar-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><span>My orders</span></a></li>
+        </ul>
+        <div class="sidebar-divider"></div>
+        <ul class="sidebar-menu-group">
+            <li><a href="#" class="sidebar-menu-link"><svg class="sidebar-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg><span>English | USD</span></a></li>
+            <li><a href="#" class="sidebar-menu-link"><svg class="sidebar-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Contact us</span></a></li>
+            <li><a href="#" class="sidebar-menu-link"><svg class="sidebar-menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="9"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg><span>About</span></a></li>
+        </ul>
+        <div class="sidebar-divider"></div>
+        <ul class="sidebar-menu-group sidebar-legal-group">
+            <li><a href="#" class="sidebar-legal-link">User agreement</a></li>
+            <li><a href="#" class="sidebar-legal-link">Partnership</a></li>
+            <li><a href="#" class="sidebar-legal-link">Privacy policy</a></li>
+        </ul>
+    </nav>
+    <div class="sidebar-bottom-accent"></div>
+</aside>
+<div class="sidebar-overlay" onclick="toggleSidebar()"></div>
     <header class="main-header">
         <div class="header-top">
+            <button class="menu-trigger" onclick="toggleSidebar()">☰ Menu</button>
             <div class="logo">
                 <img src="assets/images/logo-colored.png" alt="Company Brand Logo">
             </div>
@@ -57,6 +92,7 @@
                         <h3 class="item-title">T-shirts with multiple colors, for men and lady</h3>
                         <p class="item-meta">Size: medium, Color: blue, Material: Plastic<br>Seller: Artel Market</p>
                         <div class="item-actions">
+                            <button type="button" class="btn-pill btn-add">Add</button>
                             <button type="button" class="btn-pill btn-remove">Remove</button>
                             <button type="button" class="btn-pill btn-save">Save for later</button>
                         </div>
@@ -80,6 +116,7 @@
                         <h3 class="item-title">Blue-Jean Bag, for men and lady</h3>
                         <p class="item-meta">Size: medium, Color: blue, Material: Plastic<br>Seller: Best factory LLC</p>
                         <div class="item-actions">
+                            <button type="button" class="btn-pill btn-add">Add</button>
                             <button type="button" class="btn-pill btn-remove">Remove</button>
                             <button type="button" class="btn-pill btn-save">Save for later</button>
                         </div>
@@ -103,6 +140,7 @@
                         <h3 class="item-title">Blue Jeans Shorts, for men </h3>
                         <p class="item-meta">Size: medium, Color: blue, Material: Plastic<br>Seller: Artel Market</p>
                         <div class="item-actions">
+                            <button type="button" class="btn-pill btn-add">Add</button>
                             <button type="button" class="btn-pill btn-remove">Remove</button>
                             <button type="button" class="btn-pill btn-save">Save for later</button>
                         </div>
