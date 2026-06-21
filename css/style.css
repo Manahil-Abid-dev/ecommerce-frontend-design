@@ -40,8 +40,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
     padding: 20px 8% 20px calc(8% + 180px);
     position: relative;
+    gap: 16px;
 }
 
 .logo {
@@ -1227,6 +1229,17 @@ body {
         margin-right: 4%;
     }
 
+    /* Collapse the desktop-only 180px reserved space so the menu
+       button has room and content doesn't get pushed off to one side */
+    .header-top {
+        padding-left: 4%;
+        padding-right: 4%;
+        padding-top: 70px; /* clears the absolutely-positioned menu-trigger */
+    }
+    .logo {
+        margin-left: 0;
+    }
+
     /* Stack Sections */
     .deals-section, .category-group-block { flex-direction: column; }
     .deals-countdown-box, .group-banner-cover { width: 100%; border: none; }
@@ -1234,19 +1247,42 @@ body {
     .deals-products-grid, .recommend-products-container { grid-template-columns: repeat(2, 1fr); }
     .services-grid-container { grid-template-columns: 1fr; }
     
-    /* Hide non-essential elements on phone */
-    .banner-image-container, .hero-right-panel { display: none; }
+    /* Stack instead of hiding: hero side panels move below the main
+       content rather than disappearing */
+    .hero-container { flex-direction: column; }
+    .sidebar-categories, .hero-main-banner, .hero-right-panel {
+        width: 100%;
+        display: flex;
+    }
+    .banner-image-container { display: none; }
     .banner-text { max-width: 100%; text-align: center; }
-    
+
+    /* Product/cart/listing layouts: stack the side columns below content
+       instead of vanishing */
+    .product-container { grid-template-columns: 1fr; }
+    .product-gallery, .main-image { width: 100%; }
+    .description-container { flex-direction: column; }
+    .sidebar-card { width: 100%; }
+    .page-wrap { flex-direction: column; }
+    .product-sidebar { width: 100%; flex: 0 0 auto; }
+    .listing-layout { grid-template-columns: 1fr; }
+
     /* Footer stacking */
     .footer-top-container { flex-direction: column; }
     .footer-bottom-bar { flex-direction: column; gap: 15px; }
+
+    /* These grids had no mobile override at all and would squash
+       5-6 items into a phone-width row */
+    .related-grid { grid-template-columns: repeat(2, 1fr); }
+    .region-grid-container { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* Small Phones (480px and below) */
 @media (max-width: 480px) {
     .deals-products-grid, .recommend-products-container { grid-template-columns: 1fr; }
     .inquiry-overlay-gradient { flex-direction: column; padding: 20px; }
+    .related-grid { grid-template-columns: 1fr; }
+    .region-grid-container { grid-template-columns: 1fr; }
 }
 /* ==========================================================================
    13. PRODUCT DETAILS PAGE (PDP)
@@ -3467,6 +3503,7 @@ img {
     top: 0;
     left: -300px;
     width: 300px;
+    max-width: 85vw;
     height: 100vh;
     background: #ffffff;
     z-index: 2000;
@@ -3686,21 +3723,13 @@ img {
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
+    top: 16px;
+    left: 4%;
     z-index: 3000;
 }
 
 .menu-trigger:hover {
     background: #0d5fcf;
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .menu-trigger {
-        display: inline-block;
-    }
 }
 
 /* Desktop Responsiveness - Ensuring grids scale properly */
@@ -3721,7 +3750,20 @@ img {
     }
     .sidebar-categories, .hero-right-panel {
         width: 100%;
-        display: none; /* Hide side-panels on small laptop screens */
+        display: flex;
+    }
+    .sidebar-categories ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .hero-right-panel {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .hero-right-panel .user-card {
+        flex: 1;
+        min-width: 200px;
     }
     .product-grid {
         grid-template-columns: repeat(2, 1fr);
