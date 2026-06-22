@@ -3830,9 +3830,7 @@ img {
         height: 20px !important;
     }
 }
-/* ==========================================
-   ADD THESE MOBILE OVERRIDES AT THE VERY BOTTOM
-   ========================================== */
+
 
 /* This handles mobile screens from 768px down to small devices */
 @media (max-width: 768px) {
@@ -3864,32 +3862,31 @@ img {
     }
 }
 
-/* Specific fine-tuning for standard mobile screens like 375px */
+
 @media (max-width: 480px) {
-    /* Adjust your master site wrappers to sit inside clean mobile margins */
+    
     .header-top, .header-nav-bar, .hero-container, .deals-section, .category-group-block, .recommended-items-section {
         padding-left: 12px !important;
         padding-right: 12px !important;
     }
 
-    /* Drop product list item displays to a single item row if 2 columns crunch them */
+    
     .product-grid,
     .recommend-products-container {
         grid-template-columns: 1fr !important;
     }
     
-    /* Make sure inputs inside your components don't have hardcoded pixel widths */
+    
     input, select, textarea {
         max-width: 100% !important;
     }
 }
 @media (max-width: 768px) {
-    /* 1. Target the bar containing All Category, Hot offers, and the Flags */
-    /* Update this class name if your HTML nav wrapper uses a different name */
+    
     .header-nav-bar, 
     div:has(> .nav-icons) + div {
         display: flex !important;
-        flex-wrap: wrap !important; /* Forces items to drop to the next line safely instead of clipping */
+        flex-wrap: wrap !important; 
         align-items: center !important;
         justify-content: space-between !important;
         gap: 12px !important;
@@ -3897,8 +3894,7 @@ img {
         padding: 8px 12px !important;
     }
 
-    /* 2. Target the specific language/flag dropdown container element */
-    /* Replace with your exact class if you named it (e.g., .lang-currency-select) */
+    
     .header-nav-bar > div:last-child,
     div[class*="lang"], 
     div[class*="ship"] {
@@ -3915,5 +3911,32 @@ img {
     .header-nav-bar span {
         display: inline-flex !important;
         align-items: center !important;
+    }
+}
+@media (max-width: 768px) {
+   
+    .category-group-block {
+        display: flex !important;
+        flex-direction: column !important; /* Stack the big banners on top of their items */
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    
+    .category-group-block [class*="grid"],
+    .category-group-block [class*="container"] {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* Change from 4-columns to a clean 2x2 grid */
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 3. Handle individual item card structures */
+    .category-group-block [class*="item"], 
+    .category-group-block div[class*="product"] {
+        width: 100% !important;
+        border: 1px solid #e0e7ee !important; /* Optional: adds consistent grid lines */
+        padding: 10px !important;
+        box-sizing: border-box !important;
     }
 }
