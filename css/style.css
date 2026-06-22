@@ -1,6 +1,18 @@
 /* ==========================================================================
    1. DESIGN SYSTEM VARIABLES & RESET
    ========================================================================== */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
@@ -293,7 +305,21 @@ body {
     width:100%;
     object-fit:cover;
     z-index:1;
+    /* Smooth transition configuration */
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+                filter 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
 }
+
+/* 2. Trigger the premium popping effect when the user hovers over the banner */
+.hero-main-banner:hover .banner-bg-img {
+    /* scale(1.03) gives a 3% smooth zoom, translateY(-3px) lifts it slightly */
+    transform: scale(1.03) translateY(-3px);
+    
+    /* Adds a clean, soft drop-shadow depth behind the headphones graphic contours */
+    filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.15));
+}
+
 
 .banner-text{
     width:340px;
@@ -1887,10 +1913,13 @@ a{ text-decoration: none; }
 }
 
 /* price range slider */
+/* price range slider */
 .range-slider{
   position: relative;
   height: 18px;
   margin: 10px 2px 18px;
+  /* FIX 1: Prevents mobile gestures from locking the track */
+  touch-action: none; 
 }
 .range-track{
   position: absolute;
@@ -1900,6 +1929,7 @@ a{ text-decoration: none; }
   height: 3px;
   background: #DCE6FB;
   border-radius: 2px;
+  z-index: 1; /* Lowest structural layer */
 }
 .range-track-active{
   position: absolute;
@@ -1909,6 +1939,7 @@ a{ text-decoration: none; }
   height: 3px;
   background: var(--blue);
   border-radius: 2px;
+  z-index: 2; /* Middle visual layer */
 }
 .range-handle{
   position: absolute;
@@ -1920,8 +1951,18 @@ a{ text-decoration: none; }
   border-radius: 50%;
   transform: translateX(-50%);
   box-shadow: 0 1px 3px rgba(0,0,0,.12);
+  
+  z-index: 10 !important; 
+  
+  cursor: grab;
+  pointer-events: auto !important; 
 }
 
+
+.range-handle:active {
+  cursor: grabbing;
+  background: var(--blue) !important;
+}
 .min-max-row{
   display: flex;
   gap: 12px;
@@ -3770,5 +3811,75 @@ img {
     }
     .cart-section {
         grid-template-columns: 1fr; /* Stack cart totals below items */
+    }
+}
+@media (max-width: 576px) {
+    /* 1. Reduce the gap between icons to maximize space */
+    .nav-icons {
+        gap: 14px !important;
+    }
+
+    /* 2. Hide the text labels entirely under the icons */
+    .nav-icons span {
+        display: none !important;
+    }
+
+    /* 3. Scale down the SVG icon dimensions slightly for small phone screens */
+    .nav-icons svg {
+        width: 20px !important;
+        height: 20px !important;
+    }
+}
+/* ==========================================
+   ADD THESE MOBILE OVERRIDES AT THE VERY BOTTOM
+   ========================================== */
+
+/* This handles mobile screens from 768px down to small devices */
+@media (max-width: 768px) {
+    /* 1. Global Safety Net: Stop document level overflow */
+    html, body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden !important;
+    }
+
+    /* 2. Force the categories panel from horizontal row into a single column vertical stack */
+    .sidebar-categories, 
+    .sidebar-categories ul {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 0 !important;
+    }
+
+    .sidebar-categories ul li {
+        width: 100% !important;
+        border-bottom: 1px solid #f0f0f0; /* Adds clean spacing */
+    }
+
+    /* 3. Stack the promotion panels underneath the main banner */
+    .hero-right-panel {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 12px !important;
+    }
+}
+
+/* Specific fine-tuning for standard mobile screens like 375px */
+@media (max-width: 480px) {
+    /* Adjust your master site wrappers to sit inside clean mobile margins */
+    .header-top, .header-nav-bar, .hero-container, .deals-section, .category-group-block, .recommended-items-section {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    /* Drop product list item displays to a single item row if 2 columns crunch them */
+    .product-grid,
+    .recommend-products-container {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Make sure inputs inside your components don't have hardcoded pixel widths */
+    input, select, textarea {
+        max-width: 100% !important;
     }
 }

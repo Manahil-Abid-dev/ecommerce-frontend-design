@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initFilterGroupToggles();
     initPriceRangeSlider();
     initCloseDropdownsOnOutsideClick();
+    initCountdownTimer();
 });
 
 function toggleSidebar() {
@@ -467,74 +468,151 @@ function initPriceRangeSlider() {
     const slider = document.querySelector('.range-slider');
     if (!slider) return;
 
-    const minInput = document.querySelector('.range-min');
-    const maxInput = document.querySelector('.range-max');
+    const minMaxRow = document.querySelector('.min-max-row');
+    let minInput = null;
+    let maxInput = null;
+    if (minMaxRow) {
+        const inputs = minMaxRow.querySelectorAll('input');
+        minInput = inputs[0];
+        maxInput = inputs[1];
+    }
+
     const activeTrack = slider.querySelector('.range-track-active');
-    const minHandle = slider.querySelector('.range-handle[data-handle="min"]');
-    const maxHandle = slider.querySelector('.range-handle[data-handle="max"]');
+    const handles = slider.querySelectorAll('.range-handle');
+    if (handles.length < 2) return;
+
+    const minHandle = handles[0];
+    const maxHandle = handles[1];
+
     const minValue = 0;
     const maxValue = 999999;
-    let activeHandle = null;
+    
+    // MATCHES YOUR INITIAL IMAGE VIEW EXACTLY (0% and 100%)
+    let currentLeftPercent = 0;
+    let currentRightPercent = 100;
+    let activeMovingElement = null;
 
-    function clamp(value, min, max) {
-        return Math.min(Math.max(value, min), max);
-    }
+    // Direct inline styles to force correct z-index placement over the tracks
+    minHandle.style.zIndex = "99";
+    maxHandle.style.zIndex = "99";
 
-    function updateSlider() {
-        const left = parseFloat(minHandle.style.left) || 0;
-        const right = parseFloat(maxHandle.style.left) || 100;
-        const leftValue = Math.round(minValue + (maxValue - minValue) * (left / 100));
-        const rightValue = Math.round(minValue + (maxValue - minValue) * (right / 100));
+    function updateSliderUI() {
+        // Calculate corresponding raw numbers
+        const leftValue = Math.round(minValue + (maxValue - minValue) * (currentLeftPercent / 100));
+        const rightValue = Math.round(minValue + (maxValue - minValue) * (currentRightPercent / 100));
 
-        minInput.value = leftValue.toLocaleString();
-        maxInput.value = rightValue.toLocaleString();
-        activeTrack.style.left = `${left}%`;
-        activeTrack.style.right = `${100 - right}%`;
-    }
+        // Update your input placeholders or direct text values without adding commas
+        if (minInput) minInput.value = leftValue;
+        if (maxInput) maxInput.value = rightValue;
 
-    function moveHandle(event) {
-        if (!activeHandle) return;
-        const rect = slider.getBoundingClientRect();
-        const offsetX = event.clientX - rect.left;
-        const percent = clamp((offsetX / rect.width) * 100, 0, 100);
-        if (activeHandle === minHandle) {
-            const maxLeft = parseFloat(maxHandle.style.left) || 100;
-            activeHandle.style.left = `${Math.min(percent, maxLeft - 2)}%`;
-        } else {
-            const minLeft = parseFloat(minHandle.style.left) || 0;
-            activeHandle.style.left = `${Math.max(percent, minLeft + 2)}%`;
+        // Position the circle handles on the track line
+        minHandle.style.left = `${currentLeftPercent}%`;
+        maxHandle.style.left = `${currentRightPercent}%`;
+
+        // Draw the inner blue bar highlight strip
+        if (activeTrack) {
+            activeTrack.style.left = `${currentLeftPercent}%`;
+            activeTrack.style.right = `${100 - currentRightPercent}%`;
         }
-        updateSlider();
     }
 
-    function stopMoving() {
-        activeHandle = null;
-        document.removeEventListener('mousemove', moveHandle);
-        document.removeEventListener('mouseup', stopMoving);
+    function processMove(event) {
+        if (!activeMovingElement) return;
+        
+        event.stopPropagation();
+        
+        const rect = slider.getBoundingClientRect();
+        const clientX = event.touches ? event.touches[0].clientX : event.clientX;
+        const offsetX = clientX - rect.left;
+        let percentageMoved = (offsetX / rect.width) * 100;
+        
+        if (percentageMoved < 0) percentageMoved = 0;
+        if (percentageMoved > 100) percentageMoved = 100;
+
+        if (activeMovingElement === minHandle) {
+            // Keep a clean minimum boundary distance between the knobs
+            if (percentageMoved < currentRightPercent - 5) {
+                currentLeftPercent = percentageMoved;
+            }
+        } else if (activeMovingElement === maxHandle) {
+            if (percentageMoved > currentLeftPercent + 5) {
+                currentRightPercent = percentageMoved;
+            }
+        }
+        
+        updateSliderUI();
     }
 
-    const startDrag = (event, handle) => {
-        event.preventDefault();
-        activeHandle = handle;
-        document.addEventListener('mousemove', moveHandle);
-        document.addEventListener('mouseup', stopMoving);
-        document.addEventListener('touchmove', moveHandle, { passive: false });
-        document.addEventListener('touchend', stopMoving);
-    };
+    function processRelease() {
+        activeMovingElement = null;
+        window.removeEventListener('mousemove', processMove, true);
+        window.removeEventListener('mouseup', processRelease, true);
+        window.removeEventListener('touchmove', processMove, true);
+        window.removeEventListener('touchend', processRelease, true);
+    }
 
-    [minHandle, maxHandle].forEach(handle => {
-        handle.addEventListener('mousedown', event => startDrag(event, handle));
-        handle.addEventListener('touchstart', event => startDrag(event, handle));
-    });
+    function processPress(event, targetedHandle) {
+        event.stopPropagation();
+        activeMovingElement = targetedHandle;
+        
+        // Use capturing phase (true) to intercept inputs before other container scripts can freeze it
+        window.addEventListener('mousemove', processMove, true);
+        window.addEventListener('mouseup', processRelease, true);
+        window.addEventListener('touchmove', processMove, { passive: false, capture: true });
+        window.addEventListener('touchend', processRelease, true);
+    }
 
-    updateSlider();
+    // Attach listeners directly via standard element nodes
+    minHandle.onmousedown = (e) => processPress(e, minHandle);
+    minHandle.ontouchstart = (e) => processPress(e, minHandle);
+    
+    maxHandle.onmousedown = (e) => processPress(e, maxHandle);
+    maxHandle.ontouchstart = (e) => processPress(e, maxHandle);
+
+    // Run layout sync loop right away on load
+    updateSliderUI();
 }
+function initCountdownTimer() {
+    // Set target date to 4 days from right now
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + 4); 
 
-function updateFilterChipsState() {
-    const chipContainer = document.querySelector('.filter-chips');
-    if (!chipContainer) return;
-    const clearLink = chipContainer.querySelector('.link-clear-all');
-    if (clearLink) {
-        clearLink.style.display = chipContainer.querySelector('.chip') ? 'inline-block' : 'none';
+    function updateTimer() {
+        const now = new Date().getTime();
+        const difference = targetDate - now;
+
+        // If the countdown is finished
+        if (difference < 0) {
+            clearInterval(timerInterval);
+            const container = document.querySelector('.timer-container');
+            if (container) {
+                container.innerHTML = "<div class='timer-block'><span class='time-label'>Offer Expired!</span></div>";
+            }
+            return;
+        }
+
+        // Time calculations for days, hours, minutes, and seconds
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        // Target all the timer-blocks
+        const blocks = document.querySelectorAll('.timer-container .timer-block');
+        
+        if (blocks.length >= 4) {
+            // Update Days (Index 0)
+            blocks[0].querySelector('.time-num').textContent = String(days).padStart(2, '0');
+            // Update Hours (Index 1)
+            blocks[1].querySelector('.time-num').textContent = String(hours).padStart(2, '0');
+            // Update Minutes (Index 2)
+            blocks[2].querySelector('.time-num').textContent = String(minutes).padStart(2, '0');
+            // Update Seconds (Index 3)
+            blocks[3].querySelector('.time-num').textContent = String(seconds).padStart(2, '0');
+        }
     }
+
+    // Run immediately on page load, then refresh every 1 second
+    updateTimer();
+    const timerInterval = setInterval(updateTimer, 1000);
 }
