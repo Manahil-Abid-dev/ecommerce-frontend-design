@@ -3883,3 +3883,37 @@ img {
         max-width: 100% !important;
     }
 }
+@media (max-width: 768px) {
+    /* 1. Target the bar containing All Category, Hot offers, and the Flags */
+    /* Update this class name if your HTML nav wrapper uses a different name */
+    .header-nav-bar, 
+    div:has(> .nav-icons) + div {
+        display: flex !important;
+        flex-wrap: wrap !important; /* Forces items to drop to the next line safely instead of clipping */
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 12px !important;
+        width: 100% !important;
+        padding: 8px 12px !important;
+    }
+
+    /* 2. Target the specific language/flag dropdown container element */
+    /* Replace with your exact class if you named it (e.g., .lang-currency-select) */
+    .header-nav-bar > div:last-child,
+    div[class*="lang"], 
+    div[class*="ship"] {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        margin-top: 4px !important; /* Gives it breathing room if it drops down */
+        font-size: 13px !important;
+        white-space: nowrap !important;
+    }
+
+    /* Make sure the text inline wrappers or select elements scale accurately */
+    .header-nav-bar select,
+    .header-nav-bar span {
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+}
