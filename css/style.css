@@ -3773,7 +3773,11 @@ img {
     background: #0d5fcf;
 }
 
-/* Desktop Responsiveness - Ensuring grids scale properly */
+/* ==========================================================================
+   1. LAPTOP & LARGE TABLET BREAKPOINTS
+   ========================================================================== */
+
+/* Large Desktops / Laptops scaling down */
 @media (max-width: 1400px) {
     .header-top, .header-nav-bar, .hero-container, .deals-section, .category-group-block, .recommended-items-section {
         padding-left: 4%;
@@ -3781,10 +3785,11 @@ img {
     }
     
     .recommend-products-container {
-        grid-template-columns: repeat(4, 1fr); /* 5 cols to 4 for smaller desktops */
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
+/* Medium Desktops / Tablets Landscape */
 @media (max-width: 1100px) {
     .hero-container {
         flex-direction: column;
@@ -3810,133 +3815,182 @@ img {
         grid-template-columns: repeat(2, 1fr);
     }
     .cart-section {
-        grid-template-columns: 1fr; /* Stack cart totals below items */
-    }
-}
-@media (max-width: 576px) {
-    /* 1. Reduce the gap between icons to maximize space */
-    .nav-icons {
-        gap: 14px !important;
-    }
-
-    /* 2. Hide the text labels entirely under the icons */
-    .nav-icons span {
-        display: none !important;
-    }
-
-    /* 3. Scale down the SVG icon dimensions slightly for small phone screens */
-    .nav-icons svg {
-        width: 20px !important;
-        height: 20px !important;
+        grid-template-columns: 1fr;
     }
 }
 
+/* Tablets Portrait (Product Details Layout) */
+@media (max-width: 992px) {
+    .product-detail-container,
+    main fieldset, 
+    div:has(> .Supplier) {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 24px !important;
+        padding: 12px !important;
+        box-sizing: border-box !important;
+    }
 
-/* This handles mobile screens from 768px down to small devices */
+    .product-gallery-left,
+    .product-info-center,
+    .supplier-card-right,
+    div[class*="supplier"],
+    aside {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        flex: none !important;
+        margin: 0 !important;
+    }
+
+    .price-range-tier-box, 
+    div[class*="50-100"] {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 12px !important;
+    }
+}
+
+/* ==========================================================================
+   2. SMALL TABLETS & SMARTPHONES BREAKPOINTS
+   ========================================================================== */
+
+/* Small Tablets / Large Mobile Screens (Unified 768px Block) */
 @media (max-width: 768px) {
-    /* 1. Global Safety Net: Stop document level overflow */
+    /* Global Boundaries */
     html, body {
         width: 100%;
         max-width: 100%;
         overflow-x: hidden !important;
     }
 
-    /* 2. Force the categories panel from horizontal row into a single column vertical stack */
-    .sidebar-categories, 
-    .sidebar-categories ul {
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 0 !important;
-    }
-
-    .sidebar-categories ul li {
-        width: 100% !important;
-        border-bottom: 1px solid #f0f0f0; /* Adds clean spacing */
-    }
-
-    /* 3. Stack the promotion panels underneath the main banner */
-    .hero-right-panel {
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 12px !important;
-    }
-}
-
-
-@media (max-width: 480px) {
-    
-    .header-top, .header-nav-bar, .hero-container, .deals-section, .category-group-block, .recommended-items-section {
-        padding-left: 12px !important;
-        padding-right: 12px !important;
-    }
-
-    
-    .product-grid,
-    .recommend-products-container {
-        grid-template-columns: 1fr !important;
-    }
-    
-    
-    input, select, textarea {
-        max-width: 100% !important;
-    }
-}
-@media (max-width: 768px) {
-    
+    /* Top Sub-Nav Link Settings */
     .header-nav-bar, 
+    nav,
     div:has(> .nav-icons) + div {
         display: flex !important;
-        flex-wrap: wrap !important; 
-        align-items: center !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
         justify-content: space-between !important;
         gap: 12px !important;
         width: 100% !important;
-        padding: 8px 12px !important;
+        padding: 10px 12px !important;
     }
 
-    
+    /* Lang & Flags adjustment */
     .header-nav-bar > div:last-child,
     div[class*="lang"], 
     div[class*="ship"] {
         display: flex !important;
         align-items: center !important;
         gap: 10px !important;
-        margin-top: 4px !important; /* Gives it breathing room if it drops down */
+        margin-top: 4px !important;
         font-size: 13px !important;
         white-space: nowrap !important;
     }
 
-    /* Make sure the text inline wrappers or select elements scale accurately */
     .header-nav-bar select,
     .header-nav-bar span {
         display: inline-flex !important;
         align-items: center !important;
     }
-}
-@media (max-width: 768px) {
-   
+
+    div:has(> [class*="flag"]), 
+    div[class*="lang"] {
+        flex-direction: row !important;
+    }
+
+    /* Core Application Main Container Stacking */
+    main,
+    .main-container,
+    div:has(> .sidebar-categories),
+    div:has(> #sidebar) {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 20px !important;
+    }
+
+    /* Category Navigation Lists */
+    .sidebar-categories, 
+    .sidebar-categories ul,
+    .filter-sidebar,
+    .product-list-section,
+    .products-display-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: none !important;
+        gap: 0 !important;
+    }
+
+    .sidebar-categories ul li {
+        width: 100% !important;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    /* Hero / Ad Panels */
+    .hero-right-panel {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+
+    /* Home Grids Blocks (2 Columns) */
     .category-group-block {
         display: flex !important;
-        flex-direction: column !important; /* Stack the big banners on top of their items */
+        flex-direction: column !important;
         width: 100% !important;
         box-sizing: border-box !important;
     }
 
-    
     .category-group-block [class*="grid"],
     .category-group-block [class*="container"] {
         display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important; /* Change from 4-columns to a clean 2x2 grid */
+        grid-template-columns: repeat(2, 1fr) !important;
         width: 100% !important;
         box-sizing: border-box !important;
     }
 
-    /* 3. Handle individual item card structures */
     .category-group-block [class*="item"], 
     .category-group-block div[class*="product"] {
         width: 100% !important;
-        border: 1px solid #e0e7ee !important; /* Optional: adds consistent grid lines */
+        border: 1px solid #e0e7ee !important;
         padding: 10px !important;
         box-sizing: border-box !important;
+    }
+}
+
+/* Small Mobile Screens (e.g., iPhone, Galaxy) */
+@media (max-width: 576px) {
+    .nav-icons {
+        gap: 14px !important;
+    }
+
+    .nav-icons span {
+        display: none !important;
+    }
+
+    .nav-icons svg {
+        width: 20px !important;
+        height: 20px !important;
+    }
+}
+
+/* Tiny Mobile Screens (375px & below) */
+@media (max-width: 480px) {
+    .header-top, .header-nav-bar, .hero-container, .deals-section, .category-group-block, .recommended-items-section {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    .product-grid,
+    .recommend-products-container {
+        grid-template-columns: 1fr !important;
+    }
+    
+    input, select, textarea {
+        max-width: 100% !important;
     }
 }
