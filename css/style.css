@@ -3773,11 +3773,7 @@ img {
     background: #0d5fcf;
 }
 
-/* ==========================================================================
-   1. LAPTOP & LARGE TABLET BREAKPOINTS
-   ========================================================================== */
-
-/* Large Desktops / Laptops scaling down */
+/* Desktop Responsiveness - Ensuring grids scale properly */
 @media (max-width: 1400px) {
     .header-top, .header-nav-bar, .hero-container, .deals-section, .category-group-block, .recommended-items-section {
         padding-left: 4%;
@@ -3785,11 +3781,10 @@ img {
     }
     
     .recommend-products-container {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, 1fr); /* 5 cols to 4 for smaller desktops */
     }
 }
 
-/* Medium Desktops / Tablets Landscape */
 @media (max-width: 1100px) {
     .hero-container {
         flex-direction: column;
@@ -3815,182 +3810,373 @@ img {
         grid-template-columns: repeat(2, 1fr);
     }
     .cart-section {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Stack cart totals below items */
     }
 }
-
-/* Tablets Portrait (Product Details Layout) */
-@media (max-width: 992px) {
-    .product-detail-container,
-    main fieldset, 
-    div:has(> .Supplier) {
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 24px !important;
-        padding: 12px !important;
-        box-sizing: border-box !important;
+@media (max-width: 576px) {
+    /* 1. Reduce the gap between icons to maximize space */
+    .nav-icons {
+        gap: 14px !important;
     }
 
-    .product-gallery-left,
-    .product-info-center,
-    .supplier-card-right,
-    div[class*="supplier"],
-    aside {
+    /* 2. Hide the text labels entirely under the icons */
+    .nav-icons span {
+        display: none !important;
+    }
+/* ==========================================================================
+   LISTING PAGE MOBILE OPTIMIZATION (FIXES CROPPING & EMPTY SPACE)
+   ========================================================================== */
+
+@media (max-width: 992px) {
+    /* 1. Reset the Grid Layout: Remove the 250px left column */
+    .listing-layout, 
+    .page-wrap {
+        display: block !important; /* Switch from Grid/Flex to Block for easier stacking */
         width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        flex: none !important;
+        padding: 10px 15px !important;
         margin: 0 !important;
     }
 
-    .price-range-tier-box, 
-    div[class*="50-100"] {
-        display: flex !important;
-        flex-wrap: wrap !important;
+    /* 2. Fix the Sidebar: Stop it from pushing content to the right */
+    .product-sidebar, 
+    .filter-sidebar {
+        width: 100% !important;
+        flex: none !important;
+        margin-bottom: 20px !important;
+        display: block !important; 
+    }
+
+    /* 3. Ensure the main content takes full width */
+    .content, 
+    .listing-main {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* 4. Fix Product Grid: Prevent 3 columns on small screens */
+    .product-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* 2 items per row on tablets */
         gap: 12px !important;
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 576px) {
+    /* 5. Small Phones: 1 column to prevent cropping */
+    .product-grid {
+        grid-template-columns: 1fr !important; 
+    }
+
+    /* 6. Fix Product Card: Ensure it doesn't exceed screen width */
+    .product-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        flex-direction: column !important; /* Stack image over text */
+        box-sizing: border-box !important;
+    }
+
+    .product-image {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 1/1 !important; /* Keep it square */
+    }
+
+    /* 7. Fix Text Cropping (White-space issues) */
+    .info h4, 
+    .product-name, 
+    .product-title {
+        white-space: normal !important; /* Allows text to wrap instead of cutting off */
+        overflow: visible !important;
+        text-overflow: clip !important;
+        font-size: 14px !important;
+    }
+
+    /* 8. Toolbar adjustments (Filter/Sort bar) */
+    .listing-toolbar, 
+    .topbar {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+        padding: 12px !important;
+    }
+    
+    .toolbar-controls, 
+    .topbar-controls {
+        width: 100% !important;
+        justify-content: space-between !important;
+    }
+
+    /* 9. Remove any negative margins that might cause horizontal scrolling */
+    .section-main, 
+    body, 
+    html {
+        overflow-x: hidden !important;
+        position: relative !important;
     }
 }
 
 /* ==========================================================================
-   2. SMALL TABLETS & SMARTPHONES BREAKPOINTS
+   SPECIFIC FIX FOR HORIZONTAL OVERFLOW (The "Cropping" culprit)
    ========================================================================== */
-
-/* Small Tablets / Large Mobile Screens (Unified 768px Block) */
+* {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+    /* 3. Scale down the SVG icon dimensions slightly for small phone screens */
+    .nav-icons svg {
+        width: 20px !important;
+        height: 20px !important;
+    }
+}
+/* This handles mobile screens from 768px down to small devices */
 @media (max-width: 768px) {
-    /* Global Boundaries */
+    /* 1. Global Safety Net: Stop document level overflow */
     html, body {
         width: 100%;
         max-width: 100%;
         overflow-x: hidden !important;
     }
 
-    /* Top Sub-Nav Link Settings */
+    /* 2. Force the categories panel from horizontal row into a single column vertical stack */
+    .sidebar-categories, 
+    .sidebar-categories ul {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 0 !important;
+    }
+
+    .sidebar-categories ul li {
+        width: 100% !important;
+        border-bottom: 1px solid #f0f0f0; /* Adds clean spacing */
+    }
+
+    /* 3. Stack the promotion panels underneath the main banner */
+    .hero-right-panel {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 12px !important;
+    }
+}
+
+
+@media (max-width: 480px) {
+    
+    .header-top, .header-nav-bar, .hero-container, .deals-section, .category-group-block, .recommended-items-section {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
+    
+    .product-grid,
+    .recommend-products-container {
+        grid-template-columns: 1fr !important;
+    }
+    
+    
+    input, select, textarea {
+        max-width: 100% !important;
+    }
+}
+@media (max-width: 768px) {
+    
     .header-nav-bar, 
-    nav,
     div:has(> .nav-icons) + div {
         display: flex !important;
-        flex-direction: column !important;
-        align-items: flex-start !important;
+        flex-wrap: wrap !important; 
+        align-items: center !important;
         justify-content: space-between !important;
         gap: 12px !important;
         width: 100% !important;
-        padding: 10px 12px !important;
+        padding: 8px 12px !important;
     }
 
-    /* Lang & Flags adjustment */
+    
     .header-nav-bar > div:last-child,
     div[class*="lang"], 
     div[class*="ship"] {
         display: flex !important;
         align-items: center !important;
         gap: 10px !important;
-        margin-top: 4px !important;
+        margin-top: 4px !important; /* Gives it breathing room if it drops down */
         font-size: 13px !important;
         white-space: nowrap !important;
     }
 
+    /* Make sure the text inline wrappers or select elements scale accurately */
     .header-nav-bar select,
     .header-nav-bar span {
         display: inline-flex !important;
         align-items: center !important;
     }
-
-    div:has(> [class*="flag"]), 
-    div[class*="lang"] {
-        flex-direction: row !important;
-    }
-
-    /* Core Application Main Container Stacking */
-    main,
-    .main-container,
-    div:has(> .sidebar-categories),
-    div:has(> #sidebar) {
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 20px !important;
-    }
-
-    /* Category Navigation Lists */
-    .sidebar-categories, 
-    .sidebar-categories ul,
-    .filter-sidebar,
-    .product-list-section,
-    .products-display-grid {
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        flex: none !important;
-        gap: 0 !important;
-    }
-
-    .sidebar-categories ul li {
-        width: 100% !important;
-        border-bottom: 1px solid #f0f0f0;
-    }
-
-    /* Hero / Ad Panels */
-    .hero-right-panel {
-        flex-direction: column !important;
-        gap: 12px !important;
-    }
-
-    /* Home Grids Blocks (2 Columns) */
+}
+@media (max-width: 768px) {
+   
     .category-group-block {
         display: flex !important;
-        flex-direction: column !important;
+        flex-direction: column !important; /* Stack the big banners on top of their items */
         width: 100% !important;
         box-sizing: border-box !important;
     }
 
+    
     .category-group-block [class*="grid"],
     .category-group-block [class*="container"] {
         display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* Change from 4-columns to a clean 2x2 grid */
         width: 100% !important;
         box-sizing: border-box !important;
     }
 
+    /* 3. Handle individual item card structures */
     .category-group-block [class*="item"], 
     .category-group-block div[class*="product"] {
         width: 100% !important;
-        border: 1px solid #e0e7ee !important;
+        border: 1px solid #e0e7ee !important; /* Optional: adds consistent grid lines */
         padding: 10px !important;
         box-sizing: border-box !important;
     }
 }
 
-/* Small Mobile Screens (e.g., iPhone, Galaxy) */
-@media (max-width: 576px) {
-    .nav-icons {
-        gap: 14px !important;
+@media (max-width: 768px) {
+   
+    div:has(> .Secure), 
+    div:has(> div > h5:contains("Secure")),
+    .features-container,
+    main + div {
+        display: flex !important;
+        flex-direction: column !important; /* Stack them vertically */
+        align-items: center !important;
+        text-align: center !important;
+        gap: 24px !important;
+        width: 100% !important;
+        padding: 20px 0 !important;
     }
 
-    .nav-icons span {
-        display: none !important;
+    /* 2. Ensure each individual feature box takes full width and doesn't shrink */
+    div:has(> .Secure) > div,
+    .features-container > div {
+        width: 100% !important;
+        max-width: 280px !important; /* Keeps the text blocks neatly centered */
+        margin: 0 auto !important;
+    }
+}
+/* Fix text overflow on product list layouts for mobile screens */
+@media (max-width: 768px) {
+    /* 1. Force the descriptive text element to wrap and respect card borders */
+    .product-list-section p,
+    div[class*="product"] p,
+    .card p {
+        white-space: normal !important; /* Overrides any hidden nowrap traits */
+        word-wrap: break-word !important; 
+        overflow-wrap: break-word !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
-    .nav-icons svg {
-        width: 20px !important;
-        height: 20px !important;
+    
+    .product-list-section div,
+    div:has(> p) {
+        min-width: 0 !important; 
+    }
+}
+/* ==========================================================================
+   PDP (Product Detail Page) MOBILE FIX 
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    /* 1. Force the 3-column layout into a single vertical stack */
+    .product-container {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        padding: 15px !important;
+        gap: 20px !important;
+        border: none !important; /* Optional: cleaner look on mobile */
+    }
+
+    /* 2. Remove fixed 380px width from the Gallery and Main Image */
+    .product-gallery, 
+    .main-image {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 1 / 1; /* Keeps the image square */
+    }
+
+    .main-image img {
+        max-width: 90% !important;
+        height: auto !important;
+        object-fit: contain;
+    }
+
+    /* 3. Fix the middle info section (Title, Price, In-stock) */
+    .product-info, 
+    div:has(> .product-title) {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .price-box {
+        flex-direction: column !important; /* Stack prices if they are too wide */
+        gap: 10px;
+    }
+
+    .price-item {
+        border-right: none !important;
+        border-bottom: 1px solid #DEE2E7;
+        padding: 10px 0 !important;
+    }
+
+    .price-item:last-child {
+        border-bottom: none;
+    }
+
+    /* 4. Fix the Seller/Supplier Card */
+    .seller-card, 
+    .sidebar-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 10px 0 !important;
+        position: static !important;
+    }
+
+    /* 5. Fix the thumbnail strip below the image */
+    .gallery-strip-container {
+        width: 100% !important;
+        overflow-x: auto; /* Allow horizontal scroll if many thumbs */
+        display: flex;
+        gap: 8px;
+    }
+
+    .gallery-img {
+        width: 70px !important; /* Scale thumbnails down for mobile */
+        height: 70px !important;
+        flex-shrink: 0;
+    }
+
+    /* 6. Ensure labels (Material, Design, etc.) wrap correctly */
+    .spec-item {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .label {
+        width: 100px !important; /* Reduce label width to give value more room */
+        flex-shrink: 0;
     }
 }
 
-/* Tiny Mobile Screens (375px & below) */
+/* Fix for very small phones */
 @media (max-width: 480px) {
-    .header-top, .header-nav-bar, .hero-container, .deals-section, .category-group-block, .recommended-items-section {
-        padding-left: 12px !important;
-        padding-right: 12px !important;
-    }
-
-    .product-grid,
-    .recommend-products-container {
-        grid-template-columns: 1fr !important;
+    .product-title {
+        font-size: 18px !important;
     }
     
-    input, select, textarea {
-        max-width: 100% !important;
+    .btn-primary, .btn-secondary {
+        padding: 12px !important; /* Larger touch targets */
     }
 }
