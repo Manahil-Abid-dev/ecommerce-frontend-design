@@ -4026,7 +4026,7 @@ img {
     .category-group-block [class*="grid"],
     .category-group-block [class*="container"] {
         display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important; /* Change from 4-columns to a clean 2x2 grid */
+        grid-template-columns: repeat(2, 1fr) !important; 
         width: 100% !important;
         box-sizing: border-box !important;
     }
@@ -4048,7 +4048,7 @@ img {
     .features-container,
     main + div {
         display: flex !important;
-        flex-direction: column !important; /* Stack them vertically */
+        flex-direction: column !important; 
         align-items: center !important;
         text-align: center !important;
         gap: 24px !important;
@@ -4056,21 +4056,21 @@ img {
         padding: 20px 0 !important;
     }
 
-    /* 2. Ensure each individual feature box takes full width and doesn't shrink */
+    
     div:has(> .Secure) > div,
     .features-container > div {
         width: 100% !important;
-        max-width: 280px !important; /* Keeps the text blocks neatly centered */
+        max-width: 280px !important;
         margin: 0 auto !important;
     }
 }
-/* Fix text overflow on product list layouts for mobile screens */
+
 @media (max-width: 768px) {
-    /* 1. Force the descriptive text element to wrap and respect card borders */
+   
     .product-list-section p,
     div[class*="product"] p,
     .card p {
-        white-space: normal !important; /* Overrides any hidden nowrap traits */
+        white-space: normal !important; 
         word-wrap: break-word !important; 
         overflow-wrap: break-word !important;
         width: 100% !important;
@@ -4083,28 +4083,25 @@ img {
         min-width: 0 !important; 
     }
 }
-/* ==========================================================================
-   PDP (Product Detail Page) MOBILE FIX 
-   ========================================================================== */
+
 
 @media (max-width: 768px) {
-    /* 1. Force the 3-column layout into a single vertical stack */
+    
     .product-container {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
         padding: 15px !important;
         gap: 20px !important;
-        border: none !important; /* Optional: cleaner look on mobile */
+        border: none !important; 
     }
 
-    /* 2. Remove fixed 380px width from the Gallery and Main Image */
     .product-gallery, 
     .main-image {
         width: 100% !important;
         max-width: 100% !important;
         height: auto !important;
-        aspect-ratio: 1 / 1; /* Keeps the image square */
+        aspect-ratio: 1 / 1; 
     }
 
     .main-image img {
@@ -4113,7 +4110,7 @@ img {
         object-fit: contain;
     }
 
-    /* 3. Fix the middle info section (Title, Price, In-stock) */
+   
     .product-info, 
     div:has(> .product-title) {
         width: 100% !important;
@@ -4121,7 +4118,7 @@ img {
     }
 
     .price-box {
-        flex-direction: column !important; /* Stack prices if they are too wide */
+        flex-direction: column !important; 
         gap: 10px;
     }
 
@@ -4135,7 +4132,7 @@ img {
         border-bottom: none;
     }
 
-    /* 4. Fix the Seller/Supplier Card */
+    
     .seller-card, 
     .sidebar-card {
         width: 100% !important;
@@ -4144,7 +4141,7 @@ img {
         position: static !important;
     }
 
-    /* 5. Fix the thumbnail strip below the image */
+    
     .gallery-strip-container {
         width: 100% !important;
         overflow-x: auto; /* Allow horizontal scroll if many thumbs */
@@ -4153,19 +4150,19 @@ img {
     }
 
     .gallery-img {
-        width: 70px !important; /* Scale thumbnails down for mobile */
+        width: 70px !important; 
         height: 70px !important;
         flex-shrink: 0;
     }
 
-    /* 6. Ensure labels (Material, Design, etc.) wrap correctly */
+    
     .spec-item {
         flex-direction: row;
         justify-content: flex-start;
     }
 
     .label {
-        width: 100px !important; /* Reduce label width to give value more room */
+        width: 100px !important; 
         flex-shrink: 0;
     }
 }
@@ -4177,6 +4174,67 @@ img {
     }
     
     .btn-primary, .btn-secondary {
-        padding: 12px !important; /* Larger touch targets */
+        padding: 12px !important; 
     }
+}
+
+
+@media (max-width: 768px) {
+    
+    .main-footer {
+        padding: 40px 20px 20px 20px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    
+    .footer-top-container {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; 
+        gap: 30px 20px !important;
+        width: 100% !important;
+    }
+
+    
+    .footer-brand-col {
+        grid-column: 1 / span 2 !important; 
+        max-width: 100% !important;
+        width: 100% !important;
+        margin-bottom: 10px !important;
+    }
+
+    
+    .footer-apps-col {
+        grid-column: 1 / span 2 !important;
+        margin-top: 10px !important;
+    }
+
+    .app-buttons-stack {
+        flex-direction: row !important; 
+        gap: 10px !important;
+    }
+    .footer-bottom-bar {
+        margin: 30px -20px -20px -20px !important; 
+        padding: 20px !important;
+        flex-direction: column !important;
+        gap: 15px !important;
+        text-align: center !important;
+    }
+
+    .footer-language-selector {
+        justify-content: center !important;
+    }
+}
+
+/* Safety fix for very small devices */
+@media (max-width: 400px) {
+    .footer-top-container {
+        grid-template-columns: 1fr !important; 
+    }
+}
+
+html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    position: relative !important;
 }
